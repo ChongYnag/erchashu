@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>二叉树</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	function BinaryTree(){
+		var Node = function(key){
+			this.key = key;
+			this.left = null;
+			this.right = null;
+		};
+
+		var root = null;
+
+		var insertNode = function(node,newNode){
+			if(newNode.key<node.key){
+				if(node.left === null){
+					node.left = newNode;
+				}else{
+					insertNode(node.left,newNode);
+				}
+			}else{
+				if(node.right === null){
+					node.right = newNode;
+				}else{
+					insertNode(node.right,newNode);
+				}
+			}
+		}
+
+		this.insert = function(key){
+			var newNode = new Node(key);
+			if(root === null){
+				root = newNode;
+			}else {
+				insertNode(root,newNode);
+			}
+		}
+
+		var inOrderTraverseNode = function(node,calback){
+			if(node !== null){
+				inOrderTraverseNode(node.left,calback);
+				calback(node.key);
+				inOrderTraverseNode(node.right,calback);
+			}
+		}
+
+		//中序遍历
+		this.inOrderTraverse = function(calback){
+			inOrderTraverseNode(root,calback);
+		}
+
+		var preOrderTraverseNode = function(node,calback){
+			if(node !== null){
+				calback(node.key);
+				preOrderTraverseNode(node.left,calback);
+				preOrderTraverseNode(node.right,calback);
+			}
+		}
+
+		//前序遍历
+		this.preOrderTraverse = function(calback){
+			preOrderTraverseNode(root,calback);
+		}
+
+		var postOrderTraverseNode = function(node,calback){
+			if(node !== null){
+				preOrderTraverseNode(node.left,calback);
+				preOrderTraverseNode(node.right,calback);
+				calback(node.key);
+			}
+		}
+
+		//后续遍历
+		this.postOrderTraverse = function(calback){
+			postOrderTraverseNode(root,calback);
+		}
+
+	}
+
+	var nodese = [8,3,10,1,6,14,4,7,13];
+	var BinaryTree = new BinaryTree();
+	nodese.forEach(function(key){
+		BinaryTree.insert(key);
+	})
+
+	var calback = function(key){
+		console.log(key);
+	}
+	//中序遍历
+	// BinaryTree.inOrderTraverse(calback);
+	//前序遍历
+	// BinaryTree.preOrderTraverse(calback);
+	//后续遍历
+	BinaryTree.postOrderTraverse(calback);
+</script>
+</body>
+</html>
